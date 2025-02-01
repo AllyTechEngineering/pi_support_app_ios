@@ -7,7 +7,8 @@ import 'screens/home_screen.dart';
 
 void main() {
   final dataRepository = DataRepository();
-  final httpService = HttpService(raspberryPiIp: '192.168.1.202'); // Replace with actual IP
+  final httpService =
+      HttpService(raspberryPiIp: '192.168.1.202'); // Replace with actual IP
 
   runApp(MyApp(
     dataRepository: dataRepository,
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
   final DataRepository dataRepository;
   final HttpService httpService;
 
-  const MyApp({super.key, required this.dataRepository, required this.httpService});
+  const MyApp(
+      {super.key, required this.dataRepository, required this.httpService});
 
   @override
   Widget build(BuildContext context) {
@@ -40,5 +42,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
