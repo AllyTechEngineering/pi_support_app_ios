@@ -7,7 +7,7 @@ import 'screens/home_screen.dart';
 
 void main() {
   final dataRepository = DataRepository();
-  final httpService = HttpService(raspberryPiIp: '192.168.1.100'); // Replace with actual IP
+  final httpService = HttpService(raspberryPiIp: '192.168.1.202'); // Replace with actual IP
 
   runApp(MyApp(
     dataRepository: dataRepository,
