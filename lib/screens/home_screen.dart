@@ -16,6 +16,7 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: BlocBuilder<DataInCubit, DataInState>(
           builder: (context, state) {
+            debugPrint("🎨 UI Rebuilding with State: $state");
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -1,25 +1,48 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:pi_app/services/http_service.dart';
+
 
 class DataRepository {
-  static final DataRepository _instance = DataRepository._internal();
+  final HttpService httpService;
+  final StreamController<Map<String, dynamic>> _dataStreamController = StreamController.broadcast();
+  Timer? _timer;
 
-  factory DataRepository() {
-    return _instance;
+  DataRepository({required this.httpService}) {
+    startFetchingData();
   }
 
-  DataRepository._internal();
+  void startFetchingData() {
+    fetchDataFromPi(); // Fetch once immediately
 
-  final StreamController<Map<String, dynamic>> _controller = StreamController.broadcast();
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) async {
+      await fetchDataFromPi();
+    });
+  }
 
-  Stream<Map<String, dynamic>> get dataStream => _controller.stream;
+  Future<void> fetchDataFromPi() async {
+    debugPrint("📡 DataRepository: Fetching data from Pi");
+    try {
+      final data = await httpService.fetchData();
+      if (data != null) {
+        debugPrint("📡 DataRepository: Received data from Pi: $data");
+        _dataStreamController.add(data); // Push new data to stream
+      }
+    } catch (e) {
+      debugPrint("❌ DataRepository: Error fetching data: $e");
+    }
+  }
 
-  void updateData(Map<String, dynamic> updatedData) {
-    _controller.add(updatedData);
-    debugPrint("📡 Updated Data in Repository: $updatedData");
+  Stream<Map<String, dynamic>> get dataStream => _dataStreamController.stream;
+
+  Future<bool> sendPiData(Map<String, dynamic> updatedData) async {
+    debugPrint("📡 DataRepository: Sending data to Pi: $updatedData");
+    return await httpService.sendData(updatedData);
   }
 
   void dispose() {
-    _controller.close();
+    _timer?.cancel();
+    _dataStreamController.close();
   }
 }
+

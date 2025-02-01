@@ -9,11 +9,12 @@ class HttpService {
   HttpService({required this.raspberryPiIp});
 
   Future<Map<String, dynamic>?> fetchData() async {
+    debugPrint("📡 HttpService: Starting data fetch..."); // ✅ Log BEFORE fetching
     try {
       final response = await http.get(Uri.parse('http://$raspberryPiIp:8080/'));
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        debugPrint("📥 Received Data: \$data");
+         debugPrint("📥 Received Data in HttpService: $data"); // ✅ Debug print
         return data;
       } else {
         debugPrint("⚠️ Failed to fetch data: \${response.statusCode}");
