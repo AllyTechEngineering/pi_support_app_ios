@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pi_app/bloc/set_humidity_cubit/set_humidity_cubit.dart';
 import 'package:pi_app/bloc/set_humidity_cubit/set_humidity_state.dart';
 
-class _HumiditySlider extends StatelessWidget {
-  const _HumiditySlider();
+class HumiditySlider extends StatelessWidget {
+  const HumiditySlider({super.key});
 
   @override
   Widget build(BuildContext context) {
